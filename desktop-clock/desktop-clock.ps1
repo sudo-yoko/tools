@@ -1,3 +1,12 @@
+﻿# ショートカットで起動する方法
+# [PowerShell 5]
+#   powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\...\desktop-clock.ps1"
+# [PowerShell 7]
+#   pwsh.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\...\desktop-clock.ps1"
+#
+# NOTE: pwsh.exe -NoExit のように-NoExitを付けておくと、エラーが発生しても黒い画面が閉じずにそのまま残るようになる。
+# NOTE: PowerShell 5で動かす場合は.ps1をUTF8(BOM付き)で保存すること
+
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
