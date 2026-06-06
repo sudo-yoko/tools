@@ -28,9 +28,6 @@ $form.MaximizeBox = $false
 $form.TopMost = $true
 $form.Opacity = 0.9
 $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedSingle
-if ($Debug) {
-    $form.BackColor = [System.Drawing.Color]::Yellow
-}
 
 # タイトルバーを消す
 $form.Text = ""
@@ -69,11 +66,6 @@ $closeButton.Font = New-Object System.Drawing.Font("Arial", 20)
 $closeButton.Text = "×"
 $container.Controls.Add($closeButton)
 
-# 確認用
-#$form.BackColor = [System.Drawing.Color]::Green
-#$container.BackColor = [System.Drawing.Color]::Blue
-#$timeLabel.BackColor = [System.Drawing.Color]::Red
-
 #####################
 # 起動時に時刻を表示
 #####################
@@ -97,14 +89,6 @@ $timer.Start()
 #####################
 $closeButton.Add_Click({
         $form.Close();
-    })
-
-#####################
-# フォーム終了時
-#####################
-$form.Add_FormClosing({
-        $timer.Stop()
-        $timer.Dispose()
     })
 
 #####################
@@ -141,6 +125,33 @@ foreach ($target in $dragTargets) {
             $script:mousePoint = [System.Drawing.Point]::Empty
         })
 }
+
+#####################
+# デバッグ用機能
+#####################
+#$form.BackColor = [System.Drawing.Color]::Green
+#$container.BackColor = [System.Drawing.Color]::Blue
+#$timeLabel.BackColor = [System.Drawing.Color]::Red
+$esc = New-Object System.Windows.Forms.Timer
+$esc.Interval = 2000
+$esc.Add_Tick({
+        [System.Windows.Forms.SendKeys]::SendWait("{ESC}")
+        Write-Host "Escキー送信"
+    })
+if ($Debug) {
+    $esc.start()
+    $form.BackColor = [System.Drawing.Color]::Yellow
+}
+
+#####################
+# フォーム終了時
+#####################
+$form.Add_FormClosing({
+        $timer.Stop()
+        $timer.Dispose()
+        $esc.Stop()
+        $esc.Dispose()
+    })
 
 #####################
 # イベントループの開始
