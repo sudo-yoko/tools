@@ -5,14 +5,16 @@
 #   pwsh.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\...\desktop-clock.ps1"
 #
 # NOTE: pwsh.exe -NoExit のように-NoExitを付けておくと、エラーが発生しても黒い画面が閉じずにそのまま残るようになる。
-# NOTE: PowerShell 5 で動かす場合は.ps1をUTF8(BOM付き)で保存すること
+# NOTE: PowerShell 5 で動かす場合のために、.ps1をUTF8(BOM付き)で保存すること
 
-#####################
 # 引数
-#####################
 param(
     [switch]$Debug
 )
+
+# 厳格モードの適用
+Set-StrictMode -Version 3.0
+$ErrorActionPreference = "Stop"
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
@@ -69,10 +71,10 @@ $container.Controls.Add($closeButton)
 #####################
 # 起動時に時刻を表示
 #####################
-function Update-Time {
+function RefreshTime {
     $timeLabel.Text = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
 }
-Update-Time 
+RefreshTime
 
 #####################
 # 1秒ごとに時刻を更新
@@ -80,7 +82,7 @@ Update-Time
 $timer = New-Object System.Windows.Forms.Timer
 $timer.Interval = 1000
 $timer.Add_Tick({
-        Update-Time
+        RefreshTime
     })
 $timer.Start()
 
@@ -129,9 +131,9 @@ foreach ($target in $dragTargets) {
 #####################
 # デバッグ用機能
 #####################
-#$form.BackColor = [System.Drawing.Color]::Green
-#$container.BackColor = [System.Drawing.Color]::Blue
-#$timeLabel.BackColor = [System.Drawing.Color]::Red
+# $form.BackColor = [System.Drawing.Color]::Green
+# $container.BackColor = [System.Drawing.Color]::Blue
+# $timeLabel.BackColor = [System.Drawing.Color]::Red
 $esc = New-Object System.Windows.Forms.Timer
 $esc.Interval = 2000
 $esc.Add_Tick({
