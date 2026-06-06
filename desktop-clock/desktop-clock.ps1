@@ -5,7 +5,14 @@
 #   pwsh.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\...\desktop-clock.ps1"
 #
 # NOTE: pwsh.exe -NoExit のように-NoExitを付けておくと、エラーが発生しても黒い画面が閉じずにそのまま残るようになる。
-# NOTE: PowerShell 5で動かす場合は.ps1をUTF8(BOM付き)で保存すること
+# NOTE: PowerShell 5 で動かす場合は.ps1をUTF8(BOM付き)で保存すること
+
+#####################
+# 引数
+#####################
+param(
+    [switch]$Debug
+)
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
@@ -21,6 +28,9 @@ $form.MaximizeBox = $false
 $form.TopMost = $true
 $form.Opacity = 0.9
 $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedSingle
+if ($Debug) {
+    $form.BackColor = [System.Drawing.Color]::Yellow
+}
 
 # タイトルバーを消す
 $form.Text = ""
@@ -64,13 +74,17 @@ $container.Controls.Add($closeButton)
 #$container.BackColor = [System.Drawing.Color]::Blue
 #$timeLabel.BackColor = [System.Drawing.Color]::Red
 
+#####################
 # 起動時に時刻を表示
+#####################
 function Update-Time {
     $timeLabel.Text = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
 }
 Update-Time 
 
+#####################
 # 1秒ごとに時刻を更新
+#####################
 $timer = New-Object System.Windows.Forms.Timer
 $timer.Interval = 1000
 $timer.Add_Tick({
@@ -78,15 +92,57 @@ $timer.Add_Tick({
     })
 $timer.Start()
 
+#####################
 # 閉じるボタン押下時
+#####################
 $closeButton.Add_Click({
         $form.Close();
     })
 
+#####################
 # フォーム終了時
+#####################
 $form.Add_FormClosing({
         $timer.Stop()
         $timer.Dispose()
     })
 
+#####################
+# フォームの移動
+#####################
+# マウスが押された瞬間のクリック位置を記憶しておく変数
+$script:mousePoint = [System.Drawing.Point]::Empty
+
+# フォーム、コンテナ、時計ラベルに同じイベントを登録する
+$dragTargets = @($form, $container, $timeLabel)
+foreach ($target in $dragTargets) {
+    # マウスが押された時
+    $target.Add_MouseDown({
+            param($_sender, $e)
+            if ($e.Button -eq [System.Windows.Forms.MouseButtons]::Left) {
+                $script:mousePoint = New-Object System.Drawing.Point($e.X, $e.Y)
+            }
+        })
+    # マウスが動いているとき
+    $target.Add_MouseMove({
+            param($_sender, $e)
+            if ($e.Button -eq [System.Windows.Forms.MouseButtons]::Left -and !$script:mousePoint.IsEmpty) {
+                # マウスの位置を取得して移動させる
+                $currentScreenPos = [System.Windows.Forms.Cursor]::Position
+                $form.Location = New-Object System.Drawing.Point(
+                    ($currentScreenPos.X - $script:mousePoint.X),
+                    ($currentScreenPos.Y - $script:mousePoint.Y)
+                )
+
+            }
+        })
+    # マウスボタンが離された時
+    $target.Add_MouseUp({
+            $script:mousePoint = [System.Drawing.Point]::Empty
+        })
+}
+
+#####################
+# イベントループの開始
+#####################
 [System.Windows.Forms.Application]::Run($form)
