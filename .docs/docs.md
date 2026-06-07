@@ -16,13 +16,8 @@ PSScriptAnalyzerSettings.psd1の例
 ```powershell
 # PSScriptAnalyzerSettings.psd1
 @{
-    # 推奨ルールをすべて含める
-    IncludeRules = @('PS*')
-
-    # 規則の設定をカスタマイズする
-    Rules = @{
-        ...
-    }
+    # 既定のルールを含める
+    IncludeDefaultRules = $true
 }
 ```
 
