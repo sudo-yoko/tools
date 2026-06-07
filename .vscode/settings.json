@@ -17,6 +17,6 @@
 	"explorer.compactFolders": false,
 	"workbench.tree.indent": 20,
 	"window.zoomLevel": 1,
-	"powershell.scriptAnalysis.settingsPath": "../PSScriptAnalyzerSettings.psd1",
+	"powershell.scriptAnalysis.settingsPath": "./PSScriptAnalyzerSettings.psd1",
 	"powershell.debugging.createTemporaryIntegratedConsole": true
 }

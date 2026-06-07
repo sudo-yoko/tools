@@ -16,6 +16,7 @@ param(
 Set-StrictMode -Version 3.0
 $ErrorActionPreference = "Stop"
 
+# ライブラリ（アセンブリ）の読み込み
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
@@ -29,7 +30,7 @@ $form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
 $form.MaximizeBox = $false
 $form.TopMost = $true
 $form.Opacity = 0.9
-$form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedSingle
+$foddrm.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedSingle
 
 # タイトルバーを消す
 $form.Text = ""
