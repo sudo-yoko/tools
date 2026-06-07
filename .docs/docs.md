@@ -1,14 +1,29 @@
 PowerShell
 ## 静的コード解析を使用する方法
 VSCodeを使用する場合
-* VSCodeの[設定]で、PSScriptAnalyzerによるコード監視を有効にする。
-```
-PowerShell › Script Analysis: Enable
+```jsonc
+// settings.json
+
+// PSScriptAnalyzerによるコード監視を有効にする。
+"powershell.scriptAnalysis.enable": true,
+
+// 静的コード解析のルールを記述したファイルの配置場所を指定する。
+"powershell.scriptAnalysis.settingsPath": "./PSScriptAnalyzerSettings.psd1",
 ```
 
-* .vscodeのsettings.jsonに、静的コード解析のルールを記述したファイルの配置場所を指定する。
-```json
-"powershell.scriptAnalysis.settingsPath": "./PSScriptAnalyzerSettings.psd1",
+PSScriptAnalyzerSettings.psd1の例
+
+```powershell
+# PSScriptAnalyzerSettings.psd1
+@{
+    # 推奨ルールをすべて含める
+    IncludeRules = @('PS*')
+
+    # 規則の設定をカスタマイズする
+    Rules = @{
+        ...
+    }
+}
 ```
 
 ## 実行時の動的型チェックを厳格モードで行う方法
