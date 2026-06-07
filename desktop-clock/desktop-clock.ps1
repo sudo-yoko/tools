@@ -21,7 +21,7 @@ $form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
 $form.MaximizeBox = $false
 $form.TopMost = $true
 $form.Opacity = 0.9
-$foddrm.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedSingle
+$form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedSingle
 
 # タイトルバーを消す
 $form.Text = ""
@@ -97,6 +97,7 @@ foreach ($target in $dragTargets) {
     # マウスが押された時
     $target.Add_MouseDown({
             param($_sender, $e)
+            $null = $_sender    # 未使用パラメータの警告抑制のため
             if ($e.Button -eq [System.Windows.Forms.MouseButtons]::Left) {
                 $script:mousePoint = New-Object System.Drawing.Point($e.X, $e.Y)
             }
@@ -104,6 +105,7 @@ foreach ($target in $dragTargets) {
     # マウスが動いているとき
     $target.Add_MouseMove({
             param($_sender, $e)
+            $null = $_sender    # 未使用パラメータの警告抑制のため
             if ($e.Button -eq [System.Windows.Forms.MouseButtons]::Left -and !$script:mousePoint.IsEmpty) {
                 # マウスの位置を取得して移動させる
                 $currentScreenPos = [System.Windows.Forms.Cursor]::Position
