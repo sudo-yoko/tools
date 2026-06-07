@@ -49,3 +49,20 @@ Add-Type -AssemblyName System.Drawing
 
 ...
 ```
+
+## その他メモ
+.ps1をショートカットで起動する方法
+* PowerShell 5
+```powershell
+powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\...\desktop-clock.ps1"
+```
+* PowerShell 7
+```powershell
+pwsh.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\...\desktop-clock.ps1"
+```
+
+
+* pwsh.exe -NoExit のように-NoExitを付けておくと、エラーが発生しても黒い画面が閉じずにそのまま残るようになる。
+* PowerShell 5 で動かす場合のために、.ps1をUTF8(BOM付き)で保存する。
+
+
