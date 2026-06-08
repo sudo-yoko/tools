@@ -132,7 +132,7 @@ $esc = New-Object System.Windows.Forms.Timer
 $esc.Interval = 2000
 $esc.Add_Tick({
         [System.Windows.Forms.SendKeys]::SendWait("{ESC}")
-        Write-Host "Escキー送信"
+        Write-Host "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - Escキー送信"
     })
 if ($Debug) {
     $esc.start()
