@@ -4,7 +4,7 @@
 	// "editor.fontFamily": "'Fira Mono', 'monospace', monospace",
 	// "editor.fontFamily": "'Ubuntu Mono', 'monospace', monospace",
 	"editor.fontFamily": "'Geist Mono Light', 'monospace', monospace",
-	"editor.fontSize": 15,
+	"editor.fontSize": 14,
 	"editor.tokenColorCustomizations": {
 		"comments": {
 			"foreground": "#616E76"
@@ -12,11 +12,11 @@
 	},
 	"terminal.integrated.fontFamily": "'Cascadia Code', 'monospace', monospace",
 	//"terminal.integrated.fontFamily": "'Ubuntu Mono', 'monospace', monospace",
-	//"terminal.integrated.fontSize": 15,
+	"terminal.integrated.fontSize": 13,
 	"workbench.colorTheme": "Absent (rainglow)",
 	"explorer.compactFolders": false,
 	"workbench.tree.indent": 20,
-	"window.zoomLevel": 1,
+	"window.zoomLevel": 2,
 	"powershell.scriptAnalysis.enable": true,
 	"powershell.scriptAnalysis.settingsPath": "./PSScriptAnalyzerSettings.psd1",
 	"powershell.debugging.createTemporaryIntegratedConsole": true
